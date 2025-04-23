@@ -9,7 +9,7 @@ from datetime import datetime
 @st.cache_resource
 def load_model():
     try:
-        with open('model.pkl', 'rb') as f:
+        with open('models/model.pkl', 'rb') as f:
             saved_data = pickle.load(f)
         return (
             saved_data['model'],
@@ -27,7 +27,7 @@ def load_model():
 @st.cache_data
 def load_data():
     try:
-        data = pd.read_csv('stock.csv')
+        data = pd.read_csv('data/stock.csv')
         data['date'] = pd.to_datetime(data['date'], errors='coerce')
         if data['date'].isnull().any():
             raise ValueError("Some dates could not be parsed in stock.csv.")
@@ -78,7 +78,6 @@ else:
             prev_row = prev_data.iloc[0]
             
             # Prepare features for prediction
-            # Use previous day's values for open, high, low, volume as proxies
             input_features = []
             for col in feature_columns:
                 if col == 'days':

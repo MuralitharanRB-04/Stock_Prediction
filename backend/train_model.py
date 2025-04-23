@@ -7,7 +7,7 @@ import pickle
 
 # Load and preprocess data
 try:
-    data = pd.read_csv('stock.csv')
+    data = pd.read_csv('data/stock.csv')
     print("Initial data shape:", data.shape)
     print("Initial columns:", data.columns.tolist())
     
@@ -61,7 +61,7 @@ try:
     y = data['close'].values
     
     # Train Random Forest model
-    model = RandomForestRegressor(n_estimators=100, random_state=42)
+    model = RandomForestRegressor(n_estimators=50, random_state=42)  # Reduced for smaller model.pkl
     model.fit(X, y)
     
     # Calculate metrics
@@ -75,17 +75,17 @@ try:
     print(f"RMSE: {rmse:.2f}")
     
     # Save the model, start_date, and metrics
-    with open('model.pkl', 'wb') as f:
+    with open('models/model.pkl', 'wb') as f:
         pickle.dump({
             'model': model,
             'start_date': start_date,
             'r_squared': r_squared,
             'mae': mae,
             'rmse': rmse,
-            'feature_columns': required_columns  # Save feature columns for prediction
+            'feature_columns': required_columns
         }, f)
     
-    print("Model saved as model.pkl")
+    print("Model saved as models/model.pkl")
     
 except Exception as e:
     print(f"Error during processing: {str(e)}")
